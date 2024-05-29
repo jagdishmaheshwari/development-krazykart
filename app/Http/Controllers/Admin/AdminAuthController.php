@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
+use Illuminate\Support\Facades\Session;
 
 class AdminAuthController extends Controller
 {
@@ -25,6 +26,11 @@ class AdminAuthController extends Controller
         ]);
 
         if (Auth::guard('admin')->attempt($credentials)) {
+            $admin = Auth::guard('admin')->user();
+
+            // Store admin_id in the session
+            Session::put('admin_id', $admin->admin_id);
+
             return redirect()->route('admin.dashboard');
         }
 
@@ -34,6 +40,6 @@ class AdminAuthController extends Controller
     public function logout()
     {
         Auth::guard('admin')->logout();
-        return redirect('/admin/login');
+        return redirect()->route('admin.login');
     }
 }

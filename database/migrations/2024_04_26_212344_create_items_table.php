@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('fk_size_id');
             $table->unsignedInteger('mrp');
             $table->unsignedInteger('price');
+            $table->unsignedInteger('stock')->default(0);
             $table->tinyInteger('status')->default(0);
             $table->unsignedInteger('priority')->nullable();
             $table->timestamps();

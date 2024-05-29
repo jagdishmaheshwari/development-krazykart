@@ -5,7 +5,7 @@
         @if ($products)
             <div class="text-center h2">
                 <span>
-                    Category Name <i class='fa fa-angle-right'></i> {{ $products[0]['product_name'] }}
+                    {{ $products[0]['category_name'] }} <i class='fa fa-angle-right'></i> {{ $products[0]['product_name'] }}
                 </span>
             </div>
         @endif
@@ -13,8 +13,8 @@
         <div class="mb-2 d-flex justify-content-between">
             <h2>Manage Items</h2>
             <div>
-                <div class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addItemModal"
-                    onclick="$('#addItemButton').show();$('#updateItemButton').hide();"><i class="fa fa-plus"></i> Add Item
+                <div class="btn btn-success" data-bs-toggle="modal"
+                    onclick="$('#addItemButton').show();$('#updateItemButton').hide();$('#addItemModal').modal('show')"><i class="fa fa-plus"></i> Add Item
                 </div>
                 <div class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#specifications">Specifications <i
                         class="fa fa-list"></i>
@@ -65,14 +65,14 @@
             </div>
         @endif
         <style>
-            #imageContainer{
+            #imageContainer {
                 display: flex;
                 flex-wrap: wrap;
             }
-            .image-wrapper{
-                
-            }
-            .image-wrapper img{
+
+            .image-wrapper {}
+
+            .image-wrapper img {
                 width: 150px;
             }
 
@@ -187,8 +187,11 @@
                                 </div>
                             </td> --}}
                             <td>
-                                <div class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal"
+                                {{-- <div class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal"
                                     onclick="prefillItemDetails('{{ $item['item_id'] }}','{{ $item['fk_size_id'] }}','{{ $item['fk_color_id'] }}','{{ $item['priority'] }}','{{ $item['mrp'] }}','{{ $item['price'] }}')">
+                                    <i class="fas fa-edit"></i> Edit
+                                </div> --}}
+                                <div class="btn btn-primary" onclick="prefillItemDetails('{{ $item['item_id'] }}','{{ $item['fk_size_id'] }}','{{ $item['fk_color_id'] }}','{{ $item['priority'] }}','{{ $item['mrp'] }}','{{ $item['price'] }}')">
                                     <i class="fas fa-edit"></i> Edit
                                 </div>
                                 <div class="btn btn-danger" onclick="deleteItem('{{ $item['item_id'] }}')">
@@ -211,8 +214,7 @@
                                         data-bs-target="#uploadImageModal">
                                         <i class="fa fa-image"></i>
                                     </div>
-                                    <div class="btn btn-primary"
-                                        onclick="window.location=('manage_stock?&itemId={{ $item['item_id'] }}')">
+                                    <div class="btn btn-primary" onclick="showItemStockDetails('{{ $item['item_id'] }}')"> {{-- data-bs-toggle="modal" data-bs-target="#addStockModal" --}}
                                         <i class="fas fa-box-open"></i> Stock
                                     </div>
                                     <div class="btn btn-warning"
@@ -256,8 +258,8 @@
 
 
     <div class="modal fade p-0 p-sm-5" id="addItemModal" tabindex="1" aria-labelledby="addItemModalLabel"
-        styles="display:block !important;" aria-hidden="tru">
-        <div class="modal-dialog modal-dialog-centered">
+        aria-hidden="tru">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                     <h3 class="modal-title w-100 text-center" id="addItemModalLabel">Add Item</h3>
@@ -266,88 +268,109 @@
                 </div>
                 <div class="modal-body">
                     <form id="addItemForm">
-                        <div class="row mb-3">
+                        <div>
+                            <h2 class="text-center"> {{ $products[0]['category_name'] }} > {{ $products[0]['product_name'] }}
+                            </h2 class="text-center">
+                        </div>
+                        {{-- <div class="row mb-3">
                             <div class="col">
-                                <label for="categoryId">Select Category</label>
-                                <select class="form-select" id="categoryId" name="categoryId">
-                                    <option value="" selected>Select Category</option>
-                                    @if ($categories)
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->category_id }}">
-                                                {{ $category->category_name }}
+                                <div class="form-floating">
+                                    <select class="form-control" id="categoryId" disabled name="categoryId" placeholder>
+                                        <option value="" selected>Select Category</option>
+                                        @if ($categories)
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->category_id }}">
+                                                    {{ $category->category_name }}
+                                                </option>
+                                            @endforeach
+                                        @else
+                                            <script>
+                                                swal('Category List not fetched!');
+                                            </script>
+                                        @endif
+                                    </select>
+                                    <label for="categoryId">Select Category</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-floating">
+                                    <select class="form-control" id="productId" disabled name="productId" placeholder>
+                                        <option value="" selected>Select Product</option>
+                                        @foreach ($products as $product)
+                                            <option value="{{ $product->product_id }}">
+                                                {{ $product->product_name }}
                                             </option>
                                         @endforeach
-                                    @else
-                                        <script>
-                                            swal('Category List not fetched!');
-                                        </script>
-                                    @endif
-                                </select>
+                                    </select>
+                                    <label for="productId">Select Product</label>
+                                </div>
                             </div>
-                            <div class="col">
-                                <label for="productId">Select Product</label>
-                                <select class="form-select" id="productId" name="productId">
-                                    <option value="" selected>Select Product</option>
-                                    @foreach ($products as $product)
-                                        <option value="{{ $product->product_id }}">
-                                            {{ $product->product_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+                        </div> --}}
 
                         <div class="mb-3 row">
                             <div class="col">
-                                <label for="colorId" class="form-label">Select Color</label>
-                                <select id="colorId" class="form-select" value="">
-                                    <option value="0" disabled selected>Select Color</option>
-                                    @foreach ($colors as $color)
-                                        <option style="background-color:{{ $color->color_code }}"
-                                            value="{{ $color->color_id }}">
-                                            {{ $color->color_name }} ({{ $color->color_code }})
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <div class="form-floating">
+                                    <select id="colorId" class="form-select" value="" placeholder>
+                                        <option value="0" disabled selected>Select Color</option>
+                                        @foreach ($colors as $color)
+                                            <option style="background-color:{{ $color->color_code }}"
+                                                value="{{ $color->color_id }}">
+                                                {{ $color->color_name }} ({{ $color->color_code }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <label for="colorId" class="form-label">Select Color</label>
+                                </div>
                             </div>
                             <div class="col">
-                                <label for="sizeId" class="form-label">Select Size</label>
-                                <select id="sizeId" class="form-select" value="">
-                                    <option value="0" disabled selected>Select Size</option>
-                                    @foreach ($sizes as $size)
-                                        <option value="{{ $size->size_id }}">
-                                            {{ $size->size_name }} ({{ $size->size_code }})
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <div class="form-floating">
+                                    <select id="sizeId" class="form-select" value="" placeholder>
+                                        <option value="0" disabled selected>Select Size</option>
+                                        @foreach ($sizes as $size)
+                                            <option value="{{ $size->size_id }}">
+                                                {{ $size->size_name }} ({{ $size->size_code }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <label for="sizeId" class="form-label">Select Size</label>
+                                </div>
                             </div>
                             <div class="col">
-                                <label for="priority" class="form-label">Priority :</label>
-                                <input type="number" id="priority" value="10" class="form-control col-4">
+                                <div class="form-floating">
+                                    <input type="number" id="priority" value="10" class="form-control col-4"
+                                        placeholder>
+                                    <label for="priority" class="form-label">Priority :</label>
+                                </div>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <div class="col">
-                                <label for="sellingPrice" class="form-label">Maximum Retail Price:</label>
-                                <input type="number" id="sellingPrice" value="2000" class="form-control col-4">
+                                <div class="form-floating">
+                                    <input type="number" id="sellingPrice" value="2000" class="form-control col-4"
+                                        placeholder>
+                                    <label for="sellingPrice" class="form-label">Maximum Retail Price:</label>
+                                </div>
                             </div>
                             <div class="col">
-                                <label for="offerPrice" class="form-label">Offer Price:</label>
-                                <input type="number" id="offerPrice" value="1299" class="form-control col-4">
+                                <div class="form-floating">
+                                    <input type="number" id="offerPrice" value="1299" class="form-control col-4"
+                                        placeholder>
+                                    <label for="offerPrice" class="form-label">Offer Price:</label>
+                                </div>
                             </div>
                         </div>
-                        <div>
+                        <div class="modal-footer">
                             <input type="hidden" id="itemId" value="">
-                            <button type="button" class="btn btn-primary float-end " id="addItemButton">Add
-                                Item</button>
-                            <button type="button" class="btn btn-primary float-end " id="updateItemButton">Update
-                                Item</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" style="display:none" id="addItemButton">Add Item</button>
+                            <button type="button" class="btn btn-primary" style="display:none" id="updateItemButton">Update Item</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    @include('admin.partials.manage-stock-modal')
     <script>
         function openImagePopup(itemId, imageUrls) {
             const imageContainer = document.getElementById('imageContainer');
@@ -362,7 +385,7 @@
             imageUrls.forEach(url => {
                 const imageWrapper = document.createElement('div');
                 imageWrapper.classList.add('image-wrapper');
-                
+
                 const img = document.createElement('img');
                 img.src = url;
                 img.classList.add('images_preview');
@@ -384,7 +407,8 @@
                 fileInputContainer.classList.add('file-input-container');
 
                 const label = document.createElement('label');
-                label.classList.add('d-flex', 'opacity-75', 'align-items-center', 'justify-content-center', 'flex-column', 'text-center');
+                label.classList.add('d-flex', 'opacity-75', 'align-items-center', 'justify-content-center', 'flex-column',
+                    'text-center');
                 label.setAttribute('for', 'imageInput');
 
                 const icon = document.createElement('i');
@@ -433,7 +457,7 @@
                 formData.append('priority', 0);
 
                 $.ajax({
-                    url: '{{ route('item.image.upload') }}',
+                    url: '{{ route('admin.item.image.upload') }}',
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -493,8 +517,8 @@
         });
     </script>
     <script>
-        categoryId = '{{ $categoryId }}';
-        productId = '{{ $productId }}';
+        const categoryId = '{{ $categoryId }}';
+        const productId = '{{ $productId }}';
         if (categoryId && productId) {
             $('#categoryId').val(categoryId).change();
             setTimeout(function() {
@@ -522,12 +546,11 @@
 
             $('#addItemButton').hide();
             $('#updateItemButton').show();
+            $('#addItemModal').modal('show');
         }
         // Function to add item
         $('#addItemButton').on('click', function() {
             // Retrieve data from form fields
-            var categoryId = $('#addItemForm #categoryId').val();
-            var productId = $('#addItemForm #productId').val();
             var colorId = $('#addItemForm #colorId').val();
             var sizeId = $('#addItemForm #sizeId').val();
             var sellingPrice = $('#addItemForm #sellingPrice').val();
@@ -634,7 +657,6 @@
     <script>
         $(document).ready(function() {
             var itemId;
-
             // Capture item ID when opening the modal
             $('#uploadModal').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget);

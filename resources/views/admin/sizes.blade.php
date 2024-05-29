@@ -41,24 +41,25 @@
 <div class="modal fade" id="addSizeModal" tabindex="1" aria-labelledby="addSizeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addSizeModalLabel">Add Size</h5>
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title w-100 text-center" id="addSizeModalLabel">Add Size</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Add Size Form -->
                 <form id="addSizeForm">
                     @csrf
-                    <div class="mb-3">
+                    <div class="mb-3 form-floating">
+                        <input type="text" class="form-control" id="sizeName" name="size_name" placeholder required>
                         <label for="sizeName" class="form-label">Size Description:</label>
-                        <input type="text" class="form-control" id="sizeName" name="size_name" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 form-floating">
+                        <input type="text" class="form-control" id="sizeCode" name="size_code" placeholder required>
                         <label for="sizeCode" class="form-label">Size Code:</label>
-                        <input type="text" class="form-control" id="sizeCode" name="size_code" required>
                     </div>
-                    <div>
-                        <button type="button" class="btn btn-primary float-end" onclick="addSize()">Add Size</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success float-end" onclick="addSize()">Add Size</button>
                     </div>
                 </form>
             </div>
@@ -70,24 +71,25 @@
 <div class="modal fade" id="editSizeModal" tabindex="-1" aria-labelledby="editSizeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editSizeModalLabel">Edit Size</h5>
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title w-100 text-center" id="editSizeModalLabel">Edit Size</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Edit Size Form -->
                 <form id="editSizeForm">
                     @csrf
-                    <div class="mb-3">
+                    <div class="mb-3 form-floating">
+                        <input type="text" class="form-control" id="editSizeName" name="size_name" placeholder required>
                         <label for="editSizeName" class="form-label">Size Name:</label>
-                        <input type="text" class="form-control" id="editSizeName" name="size_name" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 form-floating">
+                        <input type="text" class="form-control" id="editSizeCode" name="size_code" placeholder required>
                         <label for="editSizeCode" class="form-label">Size Code:</label>
-                        <input type="text" class="form-control" id="editSizeCode" name="size_code" required>
                         <input type="hidden" id="editSizeId" name="size_id">
                     </div>
-                    <div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary float-end" onclick="updateSize()">Update This Size</button>
                     </div>
                 </form>

@@ -1,6 +1,6 @@
 
 <div class="logo-header" data-background-color="blue">
-    <a href="index.html" class="logo">
+    <a href="{{ route('admin.dashboard')}}" class="logo">
         <img src="/img/logo.png" alt="navbar brand" class="navbar-brand h-100">
     </a>
     <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-bs-toggle="collapse"

@@ -29,13 +29,14 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/datatable.css">
     <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/dropzone.css">
+    <link rel="stylesheet" href="/css/dropzone.css" async>
     <link rel="stylesheet" href="/admin/css/style.css">
     <link rel="stylesheet" href="/css/atlantis.css">
     <script src="/js/sweetalert.js"></script>
     <script src="/admin/js/script.js"></script>
     <script src="/js/script.js"></script>
     <script src="/js/sortable.js"></script>
+    <script src="/js/jquery-validate.min.js"></script>
     
     
     <script src="/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
@@ -59,5 +60,3 @@
      @include('admin.aside')
         <div class="main-panel">
             <div class="content">
-
-            
