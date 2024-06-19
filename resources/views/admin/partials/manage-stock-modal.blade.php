@@ -15,12 +15,14 @@
                     <div id="itemPreviewContent">
                         <div class="row">
                             <div class="col-md-4" style="height:150px">
-                                <img src="src/img/logo.png" id="itemImage" class="w-100" alt="">
+                                <img src="/img/logo.png" id="itemImage" class="w-100" alt="">
                             </div>
                             <div class="col-md-8 ">
-                                <div class="h2 text-pri"><span id="categoryName">Category Name > <span id="productName">Product Name<span
-                                            id="sizeName"></span></div>
-                                <div class="h3 text-pri"><span>Medium</span>(<span id="sizeCode">M</span>) | <span id="colorName">Blue</span> <button id="colorCode" style="background:#0f0ff1" class="btn" >Color Preview</button>
+                                <div class="h2 text-pri"><span id="categoryName">Category Name > <span
+                                            id="productName">Product Name<span id="sizeName"></span></div>
+                                <div class="h3 text-pri"><span>Medium</span>(<span id="sizeCode">M</span>) | <span
+                                        id="colorName">Blue</span> <button id="colorCode" style="background:#0f0ff1"
+                                        class="btn">Color Preview</button>
                                 </div>
                                 <div class="h3">
                                     <div class="text-pri">Price : <span id="price" class="text-sec">000</span>
@@ -28,7 +30,10 @@
                                     </div>
                                 </div>
                                 <h2 class="text-pri">
-                                    Available : <span id="stock" class="text-sec">NaN</span><span class="ms-2 small c-pointer text-primary" onclick="OpenPopupWindow('https:/\/flipkart.com','Hellow Flipkart')">View Details</span>
+                                    Available : <span id="stock" class="text-sec">NaN</span><span
+                                        class="ms-2 small c-pointer text-primary"
+                                        onclick="OpenPopupWindow('https:/\/flipkart.com','Hellow Flipkart')">View
+                                        Details</span>
                                 </h2>
                                 <h4>
                                     Status : Visible | Selling
@@ -66,7 +71,7 @@
                         <textarea id="remark" class="form-control border-success" placeholder=""></textarea>
                         <label for="remark">Remark</label>
                     </div>
-                    <input type="hidden" value="2" id="itemId">
+                    <input type="hidden" value="" id="itemId">
                 </form>
             </div>
             <div class="modal-footer">
@@ -78,82 +83,83 @@
 </div>
 <!------------------------------------------- MODAL END------------------------------------------------->
 <script>
-$(document).ready(function(){
-    $('#addStockForm').validate({
-        rules: {
-            itemId: {
-                required: true
-            },
-            stockLocation: {
-                required: true
-            },
-            quantity: {
-                required: true,
-                digits: true // Ensure the input contains only digits
-            },
-            vendor: {
-                required: true
-            }
-            // Add more rules for other fields as needed
-        },
-        messages: {
-            itemId: {
-                required: "Please enter the item ID."
-            },
-            stockLocation: {
-                required: "Please enter the stock location."
-            },
-            quantity: {
-                required: "Please enter the quantity.",
-                digits: "Please enter a valid quantity."
-            },
-            vendor: {
-                required: "Please enter the vendor."
-            }
-            // Add more messages for other fields as needed
-        },
-        submitHandler: function(form) {
-
-            if(!basicConfirmPopup('Are you sure you want to add stock?')){
-                return;
-            }
-
-            // AJAX request when the form is valid
-            var itemId = $('#addStockForm #itemId').val();
-            var stockLocation = $('#addStockForm #stockLocation').val();
-            var quantity = $('#addStockForm #quantity').val();
-            var vendor = $('#addStockForm #vendor').val();
-            var remark = $('#addStockForm #remark').val();
-            
-            $.ajax({
-                url: "{{ route('admin.stock.ajax') }}",
-                method: 'POST',
-                data: {
-                    action: 'AddStock',
-                    itemId: itemId,
-                    stockLocation: stockLocation,
-                    quantity: quantity,
-                    vendor: vendor,
-                    remark: remark,
-                    _token: '{{ csrf_token() }}'
+    $(document).ready(function() {
+        $('#addStockForm').validate({
+            rules: {
+                itemId: {
+                    required: true
                 },
-                success: function(response) {
-                    // Handle success response
-                    swal({icon: 'success', title: 'Stock Added!'}).then(function(){
-                        $('#addStockForm')[0].reset();
-                    });
-
+                stockLocation: {
+                    required: true
                 },
-                error: function(xhr, status, error) {
-                    // Handle error response
+                quantity: {
+                    required: true,
+                    digits: true // Ensure the input contains only digits
+                },
+                vendor: {
+                    required: true
                 }
-            });
-        }
+                // Add more rules for other fields as needed
+            },
+            messages: {
+                itemId: {
+                    required: "Please enter the item ID."
+                },
+                stockLocation: {
+                    required: "Please enter the stock location."
+                },
+                quantity: {
+                    required: "Please enter the quantity.",
+                    digits: "Please enter a valid quantity."
+                },
+                vendor: {
+                    required: "Please enter the vendor."
+                }
+                // Add more messages for other fields as needed
+            },
+            submitHandler: function(form) {
+
+                // if(!basicConfirmPopup('Are you sure you want to add stock?')){
+                //     return;
+                // }
+
+                // AJAX request when the form is valid
+                var itemId = $('#addStockForm #itemId').val();
+                var stockLocation = $('#addStockForm #stockLocation').val();
+                var quantity = $('#addStockForm #quantity').val();
+                var vendor = $('#addStockForm #vendor').val();
+                var remark = $('#addStockForm #remark').val();
+
+                $.ajax({
+                    url: "{{ route('admin.stock.ajax') }}",
+                    method: 'POST',
+                    data: {
+                        action: 'AddStock',
+                        itemId: itemId,
+                        stockLocation: stockLocation,
+                        quantity: quantity,
+                        vendor: vendor,
+                        remark: remark,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        showActionAlert(response.success);
+                        swal({icon: 'success', title: 'Stock Added!'}).then(function(){
+                            // $('#addStockForm')[0].reset();
+                            window.location.reload();
+                        });
+
+                    },
+                    error: function(xhr, status, error) {
+                        showActionAlert(error + '! Stock not added!', status);
+                    }
+                });
+            }
+        });
     });
-});    
-$('#addStockBtn').on('click', function() {
-    $('#addStockForm').submit(); // Trigger form submission on button click
-});
+    $('#addStockBtn').on('click', function() {
+        $('#addStockForm').submit(); // Trigger form submission on button click
+    });
 </script>
 <script>
     // Function to retrieve and display item details in the modal
@@ -178,9 +184,8 @@ $('#addStockBtn').on('click', function() {
                 // $('#sizeName').text(response.size_name);
                 // $('#itemImage').attr('src', response.image_url);
                 // $('#itemId').val(itemId);
-                // $('#itemId').val(itemId);
+                $('#addStockForm #itemId').val(itemId);
 
-                // Show the modal
                 $('#addStockModal').modal('show');
             },
             error: function(xhr, status, error) {
@@ -189,5 +194,4 @@ $('#addStockBtn').on('click', function() {
             }
         });
     }
-
 </script>

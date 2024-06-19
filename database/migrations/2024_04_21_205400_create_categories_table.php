@@ -20,25 +20,6 @@ class CreateCategoriesTable extends Migration
             $table->text('c_description')->nullable();
             $table->text('c_keywords')->nullable();
         });
-
-        // Insert data into the table
-        DB::table('categories')->insert([
-            [
-                'category_name' => 'Saree',
-                'c_description' => 'Description For Saree',
-                'c_keywords' => 'Keyword For Saree'
-            ],
-            [
-                'category_name' => 'Kurta',
-                'c_description' => 'Description for Kurta',
-                'c_keywords' => 'kurta men/women'
-            ],
-            [
-                'category_name' => 'Dress',
-                'c_description' => 'Description for Dresses',
-                'c_keywords' => 'dress ladies women'
-            ]
-        ]);
     }
 
     /**

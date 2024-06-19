@@ -25,7 +25,18 @@
                 @foreach ($categories as $category)
                     <tr>
                         <td>{{ $category->category_id }}</td>
-                        <td>{{ $category->category_name }}</td>
+                        <td style="width:100px">
+                            <div class="row">
+                                <div class="12 text-center">
+                                    {{ $category->category_name }}
+                                </div>
+                                <div class="12">
+                                    <img class="w-100"
+                                        src="{{ isset($category->image_url) && $category->image_url != null ? asset('storage') . '/' . $category->image_url : '' }}"
+                                        onerror="this.src='/img/image-placeholder-300-500.jpg'">
+                                </div>
+                            </div>
+                        </td>
                         <td>{{ $category->c_description }}</td>
                         <td>{{ $category->c_keywords }}</td>
                         <td style="width:175px !important">
@@ -71,7 +82,7 @@
                         </div>
                         <div class="mb-3 form-floating">
                             <input type="text" class="form-control" id="c_keywords" name="description"
-                            style="height:70px !important" placeholder required>
+                                style="height:70px !important" placeholder required>
                             <label for="c_keywords" class="form-label">Keywords:</label>
                         </div>
                         <div>
@@ -189,7 +200,7 @@
             // Make AJAX request to add category
             $.ajax({
                 type: 'POST',
-                url: '{{ route('admin.categories.update') }}',
+                url: '{{ route('admin.categories.add') }}',
                 data: {
                     '_token': '{{ csrf_token() }}',
                     'category_name': category_name,

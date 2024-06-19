@@ -153,20 +153,19 @@
   <!-- <link rel="stylesheet" href="assets/css/datatable.css"> -->
   <link rel="stylesheet" href="css/animate.css">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/owl_carousel.css">
+  <link rel="stylesheet" href="css/owl_carousel.min.css">
   <!-- <script src="assets/js/core/popper.min.js"></script> -->
   <!-- <script src="assets/js/atlantis.js"></script> -->
   <!-- <script src="assets/js/scrollbar.js"></script> -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.0/js/OverlayScrollbars.min.js"></script> -->
   <!-- <script src="assets/js/datatable.js"></script> -->
-  <script src="js/owl_carousel.js"></script>
+  <script src="js/owl_carousel.min.js"></script>
   <script src="js/sweetalert.js"></script>
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"> -->
-  <link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+  {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"> --}}
   <script src="js/script.js"></script>
   <script>
     // Reload the page every 5 seconds (adjust the time interval as needed)
@@ -181,22 +180,22 @@
     });
   </script>
   <script>
-    $(document).ready(function () {
-      $('.product_card.card').click(function () {
-        var productCode = $(this).attr('productCode');
-        window.location = 'product?pc=' + productCode;
-      });
-      $('.category.btn').click(function () {
-        var categoryName = $(this).attr('categoryName');
-        window.location = 'collection?cn=' + categoryName;
-      });
-    });
+    // $(document).ready(function () {
+    //   $('.product_card.card').click(function () {
+    //     var productCode = $(this).attr('productCode');
+    //     window.location = 'product?pc=' + productCode;
+    //   });
+    //   $('.category.btn').click(function () {
+    //     var categoryName = $(this).attr('categoryName');
+    //     window.location = 'collection?cn=' + categoryName;
+    //   });
+    // });
   </script>
   
 </head>
 
 <body>
-  <div class="background"></div>
+  {{-- <div class="background"></div> --}}
     @include('navbar')
   <?php // include ('assets/public_function.php');
 // include ('conn.php'); ?>

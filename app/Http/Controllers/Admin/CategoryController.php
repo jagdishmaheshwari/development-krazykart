@@ -5,14 +5,38 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Category;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
     public function __invoke()
     {
-        $categories = Category::all();
+        $categories = Category::select(
+            'categories.*',
+            DB::raw('(SELECT img.url
+                FROM item_images img
+                JOIN items ON img.fk_item_id = items.item_id
+                JOIN products p ON p.product_id = items.fk_product_id
+                WHERE p.fk_category_id = categories.category_id 
+                ORDER BY items.priority ASC
+                LIMIT 1) AS image_url')
+        )->get();
 
         return view('admin.categories', ['categories' => $categories]);
+    }
+    public function getCategoryListAjax()
+    {
+        $categories = Category::select(
+            'categories.*',
+            DB::raw('(SELECT img.url
+                FROM item_images img
+                JOIN items ON img.fk_item_id = items.item_id
+                JOIN products p ON p.product_id = items.fk_product_id
+                WHERE p.fk_category_id = categories.category_id 
+                ORDER BY items.priority ASC
+                LIMIT 1) AS image_url')
+        )->get();
+        return response()->json($categories);
     }
     public function show($categoryId)
     {

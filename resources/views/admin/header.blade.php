@@ -49,11 +49,68 @@
     <script src="/js/core/popper.min.js"></script>
     <script src="/js/core/bootstrap.min.js"></script>
     <script src="/js/atlantis.js"></script>
-    <script src="/js/dropzone.js"></script>
+    {{-- <script src="/js/dropzone.js"></script> --}}
+    {{-- <script src="/js/owl_carousel.min.js"></script> --}}
+    <script>
+        $(document).ready(function () {
+        const alertHtml = sessionStorage.getItem('alertHtml');
+        const alertType = sessionStorage.getItem('alertType');
+        const alertPosition = sessionStorage.getItem('alertPosition');
+
+        if (alertHtml && alertType && alertPosition) {
+            $('body').append(alertHtml);
+            const $alert = $('.alert').last();
+
+            switch (alertType) {
+                case 'success':
+                    $alert.addClass('alert-success');
+                    break;
+                case 'warning':
+                    $alert.addClass('alert-warning');
+                    break;
+                case 'error':
+                case 'danger':
+                    $alert.addClass('alert-danger');
+                    break;
+            }
+
+            switch (alertPosition) {
+                case 'top-right':
+                    $alert.addClass('top-0 end-0 mt-3 me-3');
+                    break;
+                case 'top-left':
+                    $alert.addClass('top-0 start-0 mt-3 ms-3');
+                    break;
+                case 'top-center':
+                    $alert.addClass('top-0 start-50 translate-middle-x mt-3');
+                    break;
+                case 'bottom-right':
+                    $alert.addClass('bottom-0 end-0 mb-3 me-3');
+                    break;
+                case 'bottom-left':
+                    $alert.addClass('bottom-0 start-0 mb-3 ms-3');
+                    break;
+                case 'bottom-center':
+                    $alert.addClass('bottom-0 start-50 translate-middle-x mb-3');
+                    break;
+                default:
+                    $alert.addClass('top-0 end-0 mt-3 me-3'); // Default to top-right
+            }
+
+            // Automatically remove the alert after a timeout (e.g., 5 seconds)
+            setTimeout(function () {
+                $alert.remove();
+                sessionStorage.removeItem('alertHtml');
+                sessionStorage.removeItem('alertType');
+                sessionStorage.removeItem('alertPosition');
+            }, 5000);
+        }
+    });
+    </script>
 </head>
 
 <body class="">
-    <div class="wrapper sidebar_minimize __theme">
+    <div class="wrapper __theme <?php echo isset($OpenSidebar) ? '' : 'sidebar_minimize' ?> ">
         <div class="main-header">
             @include('admin.navbar')
         </div>

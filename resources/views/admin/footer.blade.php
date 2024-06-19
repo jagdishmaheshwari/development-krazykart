@@ -10,8 +10,6 @@
 <script src="/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
 </div>
-<hr class="my-5">
-<hr class="my-5">
 </div>
 </body>
 

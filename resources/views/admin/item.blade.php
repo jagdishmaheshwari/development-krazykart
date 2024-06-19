@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="image-upload-container">
+<div class="image-upload-container">0
     <div class="d-flex flex-wrap">
         <?php
        // $imageSql = "SELECT * FROM item_images WHERE item_id = " . $itemId . " ORDER BY priority";

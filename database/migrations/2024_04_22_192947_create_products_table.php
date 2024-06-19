@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('product_name', 100);
             $table->text('p_description')->nullable();
             $table->string('p_keywords', 255)->nullable();
+            $table->text('html')->nullable();
             $table->char('gender', 2);
             $table->tinyInteger('status')->default(1);
             $table->unsignedInteger('priority')->nullable();

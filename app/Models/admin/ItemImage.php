@@ -13,8 +13,9 @@ class ItemImage extends Model
 
     // Disable the automatic management of the "updated at" column
     const UPDATED_AT = null;
+    protected $primaryKey = 'image_id';
 
-    protected $fillable = ['item_id', 'file_path'];
+    protected $fillable = ['item_id', 'url'];
 
     // public function item()
     // {

@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="container overflow-scroll mt-2  ManageItems">
-        @if ($products)
+        @if ($items)
             <div class="text-center h2">
                 <span>
-                    {{ $products[0]['category_name'] }} <i class='fa fa-angle-right'></i> {{ $products[0]['product_name'] }}
+                    {{ $CategoryName }} <i class='fa fa-angle-right'></i> {{ $ProductName }}
                 </span>
             </div>
         @endif
@@ -14,18 +14,19 @@
             <h2>Manage Items</h2>
             <div>
                 <div class="btn btn-success" data-bs-toggle="modal"
-                    onclick="$('#addItemButton').show();$('#updateItemButton').hide();$('#addItemModal').modal('show')"><i class="fa fa-plus"></i> Add Item
+                    onclick="$('#addItemButton').show();$('#updateItemButton').hide();$('#addItemModal').modal('show')"><i
+                        class="fa fa-plus"></i> Add Item
                 </div>
-                <div class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#specifications">Specifications <i
+                <div class="btn btn-primary" data-bs-toggle="modal" onclick="getProductDetailHtml({{$productId}});">Description <i
                         class="fa fa-list"></i>
                 </div>
             </div>
         </div>
 
-        @if (!$productId)
+       <?php /* @if (!$items[0]->product_id)
             <div id="specifications" class="collapse w-100 py-2 bg-grey">
                 <div class="px-5">
-                    @php
+                    {{-- @php
                         $row = getDetails($conn, "product_list.product_id = $productId")->first();
                     @endphp
 
@@ -36,7 +37,7 @@
                         <div class="h2">
                             <b>Keywords :</b> {{ $row->p_keywords }}
                         </div>
-                    @endif
+                    @endif --}}
 
                     <hr>
 
@@ -64,18 +65,8 @@
                 </div>
             </div>
         @endif
+        */?>
         <style>
-            #imageContainer {
-                display: flex;
-                flex-wrap: wrap;
-            }
-
-            .image-wrapper {}
-
-            .image-wrapper img {
-                width: 150px;
-            }
-
             .ManageItems .table td {
                 padding: 10px 10px !important;
             }
@@ -92,18 +83,6 @@
             .ManageItems .table tbody td {
                 height: 50px;
                 max-height: 50px
-            }
-
-            .file-input-container>label,
-            .image-container {
-                background: var(--acc);
-                color: #fff;
-                border-radius: 10px;
-                padding: 10px;
-                min-width: 120px;
-                min-height: 90%;
-                cursor: pointer;
-                margin: 10px 10px 40px;
             }
         </style>
         <div class="car">
@@ -129,10 +108,10 @@
                             <td class="">
                                 <div class="d-flex flex-row">
                                     <div class="btn btn-xs text-success fa fa-caret-up"
-                                        onclick="editPriority('items','item_id','{{ $item['item_id'] }}','minus')"></div>
-                                    <div class="btn">{{ $item['priority'] }}</div>
+                                        onclick="editPriority('items','item_id','{{ $item->item_id }}','minus')"></div>
+                                    <div class="btn">{{ $item->priority }}</div>
                                     <div class="btn btn-xs text-danger fa fa-caret-down"
-                                        onclick="editPriority('items','item_id','{{ $item['item_id'] }}','plus')"></div>
+                                        onclick="editPriority('items','item_id','{{ $item->item_id }}','plus')"></div>
                                 </div>
                             </td>
                             <td>
@@ -140,30 +119,31 @@
                                     <div>
                                         <div class="d-flex" style="height:100px;padding:5px">
                                             {{-- <i
-                                            class="fa fa-circle {{ $item['status'] ? 'spinner-grow spinner-grow-sm text-green' : 'text-red' }}"></i> --}}
+                                            class="fa fa-circle {{ $item->status ? 'spinner-grow spinner-grow-sm text-green' : 'text-red' }}"></i> --}}
                                             <!-- Replace the image URL with a placeholder from Unsplash -->
-                                            <img src="{{ @$item['item_images'][0] }}" alt="No Image">
+                                            <img src="{{ reset($item->item_images) }}"
+                                                onerror="this.src='/img/image-placeholder-300-500.jpg'" alt="No Image">
                                         </div>
                                     </div>
                                     <div class="p-2">
-                                        <div class="">{{ $item['category_name'] }}>{{ $item['product_name'] }} (
-                                            @if ($item['gender'] == 'm')
+                                        <div class="">
+                                            @if ($item->gender == 'M')
                                                 Male
-                                            @elseif ($item['gender'] == 'f')
+                                            @elseif ($item->gender == 'F')
                                                 Female
-                                            @endif) <i class="text-light btn"
-                                                style="background: {{ $item['color_code'] }}">{{ $item['color_name'] }}</i>
+                                            @endif <i class="text-light btn"
+                                                style="background: {{ $item->color_code }}">{{ $item->color_name }}</i>
                                         </div>
                                         <div class="h5">
                                             <div>
                                                 <span class="h2 text-sec">
                                                     <span
-                                                        class="text-pri text-decoration-line-through">{{ $item['mrp'] }}</span>
+                                                        class="text-pri text-decoration-line-through">{{ $item->mrp }}</span>
                                                     &nbsp;
-                                                    {{ $item['price'] }}
-                                                </span>&nbsp;&nbsp;&nbsp;<span>Available 0{{ $item['stock'] }}</span>
+                                                    {{ $item->price }}
+                                                </span>&nbsp;&nbsp;&nbsp;<span>Available 0{{ $item->stock }}</span>
                                                 {{-- <div class="h4">
-                                                    <b>Size : </b>{{ $item['size_name'] }} ({{ $item['size_code'] }})
+                                                    <b>Size : </b>{{ $item->size_name }} ({{ $item->size_code }})
                                                 </div> --}}
                                             </div>
                                         </div>
@@ -172,53 +152,52 @@
                             </td>
                             {{-- <td>
                                 <div class="h2 d-flex text-sec">
-                                    <span class="text-pri text-decoration-line-through">{{ $item['mrp'] }}</span>
+                                    <span class="text-pri text-decoration-line-through">{{ $item->mrp }}</span>
                                     &nbsp;
-                                    {{ $item['price'] }}
+                                    {{ $item->price }}
                                 </div>
                                 <div class="h4">
                                     <b>Color : </b>
                                     <i class="text-light btn"
-                                        style="background: {{ $item['color_code'] }}">{{ $item['color_name'] }}</i>
+                                        style="background: {{ $item->color_code }}">{{ $item->color_name }}</i>
                                     <br>
-                                    <b>Size : </b>{{ $item['size_name'] }} ({{ $item['size_code'] }})
+                                    <b>Size : </b>{{ $item->size_name }} ({{ $item->size_code }})
                                     <br>
-                                    <b>Available : </b>{{ $item['stock'] }}
+                                    <b>Available : </b>{{ $item->stock }}
                                 </div>
                             </td> --}}
                             <td>
                                 {{-- <div class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal"
-                                    onclick="prefillItemDetails('{{ $item['item_id'] }}','{{ $item['fk_size_id'] }}','{{ $item['fk_color_id'] }}','{{ $item['priority'] }}','{{ $item['mrp'] }}','{{ $item['price'] }}')">
+                                    onclick="prefillItemDetails('{{ $item->item_id }}','{{ $item->fk_size_id }}','{{ $item->fk_color_id }}','{{ $item->priority }}','{{ $item->mrp }}','{{ $item->price }}')">
                                     <i class="fas fa-edit"></i> Edit
                                 </div> --}}
-                                <div class="btn btn-primary" onclick="prefillItemDetails('{{ $item['item_id'] }}','{{ $item['fk_size_id'] }}','{{ $item['fk_color_id'] }}','{{ $item['priority'] }}','{{ $item['mrp'] }}','{{ $item['price'] }}')">
+                                <div class="btn btn-primary"
+                                    onclick="prefillItemDetails('{{ $item->item_id }}','{{ $item->fk_size_id }}','{{ $item->fk_color_id }}','{{ $item->priority }}','{{ $item->mrp }}','{{ $item->price }}','{{ $item->cost_price }}')">
                                     <i class="fas fa-edit"></i> Edit
                                 </div>
-                                <div class="btn btn-danger" onclick="deleteItem('{{ $item['item_id'] }}')">
+                                <div class="btn btn-danger" onclick="deleteItem('{{ $item->item_id }}')">
                                     <i class="fa fa-trash"></i>
                                 </div>
-                                @if ($item['status'] == 0)
+                                @if ($item->status == 0)
                                     <div class="btn btn-success"
-                                        onclick="updateRecordStatus('items','item_id','{{ $item['item_id'] }}')">
+                                        onclick="updateRecordStatus('items','item_id','{{ $item->item_id }}')">
                                         <i class="fa fa-eye"></i> Show
                                     </div>
                                 @else
                                     <div class="btn btn-danger"
-                                        onclick="updateRecordStatus('items','item_id','{{ $item['item_id'] }}')">
+                                        onclick="updateRecordStatus('items','item_id','{{ $item->item_id }}')">
                                         <i class="fa fa-eye-slash"></i> Hide
                                     </div>
                                 @endif
                                 <div class="pt-1">
-                                    <div class="btn btn-primary" data-bs-toggle="modal"
-                                        onclick="openImagePopup({{ $item['item_id'] }}, {{ $item['item_images'] }})"
-                                        data-bs-target="#uploadImageModal">
+                                    <div class="btn btn-primary" onclick="openImagePopup({{ $item->item_id }})">
                                         <i class="fa fa-image"></i>
                                     </div>
-                                    <div class="btn btn-primary" onclick="showItemStockDetails('{{ $item['item_id'] }}')"> {{-- data-bs-toggle="modal" data-bs-target="#addStockModal" --}}
+                                    <div class="btn btn-primary" onclick="showItemStockDetails('{{ $item->item_id }}')">
+                                        {{-- data-bs-toggle="modal" data-bs-target="#addStockModal" --}}
                                         <i class="fas fa-box-open"></i> Stock
                                     </div>
-                                    <div class="btn btn-warning"
-                                        onclick="window.location=('clone_item?itemId={{ $item['item_id'] }}')">
+                                    <div class="btn btn-warning" id="cloneItem" data-item-id="{{ $item->item_id }}">
                                         <i class="fas fa-clone"></i> Clone
                                     </div>
                                 </div>
@@ -229,33 +208,6 @@
             </table>
         </div>
     </div>
-    <style>
-
-    </style>
-    <!-- MANAGE IMAGES MODAL START-->
-    <div class="modal fade" id="uploadImageModal" tabindex="-1" role="dialog" aria-labelledby="uploadImageModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h3 class="modal-title w-100 text-center" id="addItemModalLabel">Manage Item Images</h3>
-                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="imageContainer"></div>
-                    <div class="sortable-list" id="sortableList">
-                        <!-- Thumbnails will be added here dynamically -->
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="submit-all">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- MANAGE IMAGES MODAL END-->
-
 
     <div class="modal fade p-0 p-sm-5" id="addItemModal" tabindex="1" aria-labelledby="addItemModalLabel"
         aria-hidden="tru">
@@ -263,13 +215,12 @@
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                     <h3 class="modal-title w-100 text-center" id="addItemModalLabel">Add Item</h3>
-                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="addItemForm">
                         <div>
-                            <h2 class="text-center"> {{ $products[0]['category_name'] }} > {{ $products[0]['product_name'] }}
+                            <h2 class="text-center"> {{ $CategoryName }} > {{ $ProductName }}
                             </h2 class="text-center">
                         </div>
                         {{-- <div class="row mb-3">
@@ -296,9 +247,9 @@
                                 <div class="form-floating">
                                     <select class="form-control" id="productId" disabled name="productId" placeholder>
                                         <option value="" selected>Select Product</option>
-                                        @foreach ($products as $product)
-                                            <option value="{{ $product->product_id }}">
-                                                {{ $product->product_name }}
+                                        @foreach ($items as $item)
+                                            <option value="{{ $item->product_id }}">
+                                                {{ $item->product_name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -358,12 +309,22 @@
                                     <label for="offerPrice" class="form-label">Offer Price:</label>
                                 </div>
                             </div>
+                            <div class="col">
+                                <div class="form-floating">
+                                    <input type="number" id="costPrice" value="1299" class="form-control col-4"
+                                        placeholder>
+                                    <label for="costPrice" class="form-label">Cost Price(optional) : </label>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="modal-footer">
                             <input type="hidden" id="itemId" value="">
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" style="display:none" id="addItemButton">Add Item</button>
-                            <button type="button" class="btn btn-primary" style="display:none" id="updateItemButton">Update Item</button>
+                            <button type="button" class="btn btn-primary" style="display:none" id="addItemButton">Add
+                                Item</button>
+                            <button type="button" class="btn btn-primary" style="display:none"
+                                id="updateItemButton">Update Item</button>
                         </div>
                     </form>
                 </div>
@@ -371,120 +332,20 @@
         </div>
     </div>
     @include('admin.partials.manage-stock-modal')
-    <script>
-        function openImagePopup(itemId, imageUrls) {
-            const imageContainer = document.getElementById('imageContainer');
-            const imageItemId = $('#uploadImageModal #itemId');
-
-            // Clear any existing images in the container
-            imageContainer.innerHTML = '';
-            // Set the item ID in the hidden input
-            imageItemId.val(itemId);
-
-            // Loop through the image URLs and create img elements
-            imageUrls.forEach(url => {
-                const imageWrapper = document.createElement('div');
-                imageWrapper.classList.add('image-wrapper');
-
-                const img = document.createElement('img');
-                img.src = url;
-                img.classList.add('images_preview');
-
-                imageWrapper.appendChild(img);
-                imageContainer.appendChild(imageWrapper);
-            });
-
-            // Add upload form if image count is less than 7
-            if (imageUrls.length < 7) {
-                const imageInputForm = document.createElement('form');
-                imageInputForm.id = 'imageForm';
-                imageInputForm.method = 'POST';
-                imageInputForm.classList.add('d-flex');
-                imageInputForm.action = 'action_upload_item_image';
-                imageInputForm.enctype = 'multipart/form-data';
-
-                const fileInputContainer = document.createElement('div');
-                fileInputContainer.classList.add('file-input-container');
-
-                const label = document.createElement('label');
-                label.classList.add('d-flex', 'opacity-75', 'align-items-center', 'justify-content-center', 'flex-column',
-                    'text-center');
-                label.setAttribute('for', 'imageInput');
-
-                const icon = document.createElement('i');
-                icon.classList.add('fa', 'fa-upload');
-                icon.style.fontSize = '40px';
-
-                const heading = document.createElement('h3');
-                heading.innerHTML = 'Upload<br>Image';
-
-                label.appendChild(icon);
-                label.appendChild(heading);
-
-                const fileInput = document.createElement('input');
-                fileInput.type = 'file';
-                fileInput.id = 'imageInput';
-                fileInput.classList.add('d-none');
-                fileInput.name = 'image';
-                fileInput.accept = 'image/*';
-                fileInput.required = true;
-
-                const hiddenInput = document.createElement('input');
-                hiddenInput.type = 'hidden';
-                hiddenInput.id = 'itemId';
-                hiddenInput.name = 'itemId'; // Ensure this name matches your form handling
-                hiddenInput.value = itemId;
-
-                fileInputContainer.appendChild(label);
-                fileInputContainer.appendChild(fileInput);
-                fileInputContainer.appendChild(hiddenInput);
-
-                imageInputForm.appendChild(fileInputContainer);
-                imageContainer.appendChild(imageInputForm);
-            }
-
-            // Show the modal
-            $('#uploadImageModal').modal('show');
-        }
-        $(document).ready(function() {
-            $('#uploadImageModal').on('change', '#imageInput', function() {
-                const file = this.files[0];
-                const formData = new FormData();
-                itemId = $('#uploadImageModal #itemId').val();
-                formData.append('_token', '{{ csrf_token() }}');
-                formData.append('image', file);
-                formData.append('item_id', itemId);
-                formData.append('priority', 0);
-
-                $.ajax({
-                    url: '{{ route('admin.item.image.upload') }}',
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        window.location.reload();
-                        // alert('Image uploaded successfully!');
-                        // Optionally, you can update the UI to show the uploaded image
-                    },
-                    error: function(response) {
-                        swal('Error!', response.responseJSON.message, 'error');
-                    }
-                });
-            });
-        });
-    </script>
+    @include('admin.partials.manage-image-modal')
+    @include('admin.partials.product_detail_modal')
     <script>
         $(document).ready(function() {
             // Update item button click event
             $('#updateItemButton').on('click', function() {
                 // Retrieve data from form fields
                 var itemId = $('#addItemForm #itemId').val();
-                var sizeId = $('#sizeId').val();
-                var colorId = $('#colorId').val();
-                var priority = $('#priority').val();
-                var sellingPrice = $('#sellingPrice').val();
-                var offerPrice = $('#offerPrice').val();
+                var sizeId = $('#addItemForm #sizeId').val();
+                var colorId = $('#addItemForm #colorId').val();
+                var priority = $('#addItemForm #priority').val();
+                var sellingPrice = $('#addItemForm #sellingPrice').val();
+                var offerPrice = $('#addItemForm #offerPrice').val();
+                var costPrice = $('#addItemForm #costPrice').val();
 
                 // Make AJAX request to update item
                 $.ajax({
@@ -497,7 +358,8 @@
                         colorId: colorId,
                         priority: priority,
                         sellingPrice: sellingPrice,
-                        offerPrice: offerPrice
+                        offerPrice: offerPrice,
+                        costPrice: costPrice
                     },
                     success: function(response) {
                         if (response.status === 'success') {
@@ -511,6 +373,30 @@
                     },
                     error: function(xhr, status, error) {
                         swal('Error', 'An error occurred while updating the item.', 'error');
+                    }
+                });
+            });
+            $('#cloneItem').click(function() {
+                // Get the item ID to be cloned (replace with your logic to get the ID)
+                var itemId = $(this).data('item-id'); // Assuming the ID is stored in a data attribute
+
+                $.ajax({
+                    url: '{{ route('admin.item.clone') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        itemId: itemId
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            showActionAlert(response.success);
+                            window.location.reload();
+                        } else {
+                            alert('Failed to clone item.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        showActionAlert(error + '! Clone failed!', status);
                     }
                 });
             });
@@ -535,7 +421,7 @@
     <!-- Ensure to replace 'admin.items.add', 'admin.items.delete' with your actual route names -->
     <script>
         // Function to prefill item details in the modal
-        function prefillItemDetails(itemId, sizeId, colorId, priority, sellingPrice, offerPrice) {
+        function prefillItemDetails(itemId, sizeId, colorId, priority, sellingPrice, offerPrice, costPrice) {
             // Prefill item details in the modal
             $('#addItemModal #itemId').val(itemId);
             $('#addItemModal #sizeId').val(sizeId);
@@ -543,6 +429,7 @@
             $('#addItemModal #priority').val(priority);
             $('#addItemModal #sellingPrice').val(sellingPrice);
             $('#addItemModal #offerPrice').val(offerPrice);
+            $('#addItemModal #costPrice').val(costPrice);
 
             $('#addItemButton').hide();
             $('#updateItemButton').show();
@@ -555,6 +442,7 @@
             var sizeId = $('#addItemForm #sizeId').val();
             var sellingPrice = $('#addItemForm #sellingPrice').val();
             var offerPrice = $('#addItemForm #offerPrice').val();
+            var costPrice = $('#addItemForm #costPrice').val();
             var priority = $('#addItemForm #priority').val();
 
             // Validate form fields
@@ -577,6 +465,7 @@
                     sizeId: sizeId,
                     sellingPrice: sellingPrice,
                     offerPrice: offerPrice,
+                    costPrice: costPrice,
                     priority: priority
                 },
                 success: function(response) {
@@ -652,92 +541,6 @@
                 }
             });
         }
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            var itemId;
-            // Capture item ID when opening the modal
-            $('#uploadModal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget);
-                itemId = button.data('item-id');
-                console.log('Item ID:', itemId);
-            });
-
-            // Initialize Dropzone
-            Dropzone.options.imageUploadDropzone = {
-                paramName: 'file',
-                maxFiles: 7,
-                acceptedFiles: 'image/*',
-                autoProcessQueue: false,
-                init: function() {
-                    var myDropzone = this;
-
-                    $('#submit-all').click(function() {
-                        myDropzone.processQueue(); // Process the queue
-                    });
-
-                    this.on('sending', function(file, xhr, formData) {
-                        formData.append('item_id', itemId); // Append item ID to the form data
-                    });
-
-                    this.on('success', function(file, response) {
-                        // Handle successful upload
-                        addThumbnail(response.imageUrl); // Assume response contains the image URL
-                    });
-
-                    this.on('queuecomplete', function() {
-                        myDropzone.removeAllFiles(); // Clear the Dropzone area
-                    });
-                }
-            };
-
-            // Initialize Sortable
-            var sortable = new Sortable(document.getElementById('sortableList'), {
-                animation: 150,
-                onEnd: function( /**Event*/ evt) {
-                    // Handle reordering here if needed
-                }
-            });
-
-            // Function to add a thumbnail to the sortable list
-            function addThumbnail(imageUrl) {
-                var sortableList = $('#sortableList');
-                var thumbnail = `
-            <div class="sortable-item">
-                <img src="${imageUrl}" alt="Image">
-                <button class="remove-btn">&times;</button>
-            </div>
-        `;
-                sortableList.append(thumbnail);
-            }
-
-            // Event delegation to handle thumbnail removal
-            $('#sortableList').on('click', '.remove-btn', function() {
-                $(this).closest('.sortable-item').remove();
-            });
-
-            // Event delegation to handle full view of images
-            $('#sortableList').on('click', 'img', function() {
-                var src = $(this).attr('src');
-                var modalHtml = `
-            <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <img src="${src}" class="img-fluid">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-                $('body').append(modalHtml);
-                $('#imageModal').modal('show');
-                $('#imageModal').on('hidden.bs.modal', function() {
-                    $(this).remove();
-                });
-            });
-        });
     </script>
 
 @endsection

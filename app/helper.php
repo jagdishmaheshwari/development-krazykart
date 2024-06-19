@@ -1,23 +1,41 @@
 <?php
 use Illuminate\Support\Facades\DB;
+use App\Models\Admin\ItemImage;
+use App\Http\Controllers\Admin\ItemsController;
 
 if (!function_exists('prd')) {
     function prd($a, $die = null)
     {
         echo "<pre>";
-        if (is_array($a) && $a === null) {
-            echo "NULL ARRAY";
+        if (is_null($a)) {
+            echo "NULL";
+        } elseif (is_array($a)) {
+            print_r($a);
+        } elseif (is_object($a)) {
+            print_r($a); // You can also use var_dump($a) for more detailed information
         } else {
-            if (is_array($a)) {
-                print_r($a);
-            } else {
-                echo $a;
-            }
+            echo $a;
         }
         echo "</pre>";
-        if(!$die){
+        if (!$die) {
             die();
         }
+    }
+}
+if (!function_exists('pr')) {
+    function pr($a)
+    {
+        echo "<pre>";
+        if (is_null($a)) {
+            echo "NULL";
+        } elseif (is_array($a)) {
+            print_r($a);
+        } elseif (is_object($a)) {
+            print_r($a); // You can also use var_dump($a) for more detailed information
+        } else {
+            echo $a;
+        }
+        echo "</pre>";
     }
 }
 if (!function_exists('handleDataTablesRequest')) {
@@ -80,5 +98,34 @@ if (!function_exists('updateStatus')) {
         }
 
         return false;
+    }
+}
+if (!function_exists('getItemImages')) {
+    function getItemImages($itemId){
+        $ItemImage = new ItemImage();
+        return $ItemImage->where('fk_item_id', $itemId)->orderBy('priority')->pluck('url', 'image_id')->map(function ($filename) {
+            return asset('storage') . '/' . $filename;
+        })->toArray();
+    }
+}
+if (!function_exists('getItem')) {
+    function getItem($itemId=[], $admin = false)
+    {
+        $Detail = ItemsController::getItems(["items.item_id" => $itemId], [], $admin);
+        return reset($Detail);
+    }
+}
+if (!function_exists('getItems')) {
+    function getItems($condition = [], $orderBy = [], $admin = false)
+    {
+        return ItemsController::getItems($condition, $orderBy, $admin);
+    }
+}
+if (!function_exists('getColumnValueByPrimaryKey')) {
+    function getColumnValueByPrimaryKey($table, $column, $primary)
+    {
+        [$key, $value] = $primary;
+        $Response = DB::table($table)->where($key, $value)->value($column);
+        return $Response;
     }
 }

@@ -45,7 +45,8 @@
                                         <div class="col-2 d-flex">
                                             <i
                                                 class="fa fa-circle {{ $product->status ? 'spinner-grow spinner-grow-sm text-green' : 'text-red' }}"></i>
-                                            <img class="w-100" src="images/item_images/image }}">
+                                            <img class="w-100" src="{{ isset($product->image_url) && $product->image_url != null ? asset('storage') . '/' . $product->image_url : '' }}"
+                                                onerror="this.src='/img/image-placeholder-300-500.jpg'">
                                         </div>
                                         <div class="col-10">
                                             <div class="h3">{{ $product->category_name }}</div>
@@ -53,7 +54,7 @@
                                                 ({{ $product->gender === 'm' ? 'Male' : 'Female' }})
                                             </div>
                                             <div><code>{{ $product->product_code }}</code></div>
-                                            <div>{{ $product->keywords }}</div>
+                                            <div>{{ $product->p_keywords }}</div>
                                         </div>
                                     </div>
                                 </td>

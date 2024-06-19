@@ -9,14 +9,14 @@
                 <div class="info">
                     <a>
                         <span>
-                            Jagdish
+                            {{ $AdminName }}
                             <span class="user-level">Administrator</span>
                         </span>
                     </a>
                 </div>
             </div>
             <ul class="nav nav-primary">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a href="{{ route('admin.dashboard') }}">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
@@ -29,7 +29,7 @@
                     <h4 class="text-section">Components</h4>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.categories') }}">
+                    <a href="{{ route('admin.collection') }}">
                         <i class="fa fa-object-group"></i>
                         <p>Collection</p>
                     </a>
@@ -41,7 +41,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="manage_stock">
+                    <a href="{{ route('admin.stock.view') }}">
                         <i class="fas fa-box-open"></i>
                         <p>Stock</p>
                     </a>
@@ -122,4 +122,16 @@
         </div>
     </div>
 </div>
-<!-- End Sidebar -->
+<script>
+    $(document).ready(function() {
+        var currentUrl = window.location.href;
+        $('.nav-item a').each(function() {
+            var $this = $(this);
+            var linkHref = $this.attr('href');
+
+            if (currentUrl.includes(linkHref)) {
+                $this.closest('.nav-item').addClass('active');
+            }
+        });
+    });
+</script>

@@ -4,9 +4,6 @@
 <div class="display-1 bg-light text-pri py-5 text-center">
      {{ __('lang.welcome') }}
 </div>
-<hr>
-<hr>
-<hr>
 <footer class="footer mt-auto ">
     <div class="container text-center">
         <div class="row">

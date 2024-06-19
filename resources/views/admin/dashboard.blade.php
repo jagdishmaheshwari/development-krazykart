@@ -2,6 +2,7 @@
 
 
 @section('content')
+<?php $OpenSidebar = true ?>
     <div class="container dashboard-container">
         <div class="row">
             <!-- <div class="col-md-4">
@@ -17,13 +18,13 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="dashboard-option" onclick="window.location = ('categories')">
+                <div class="dashboard-option" href="{{ route('admin.collection') }}">
                     <i class="fa fa-object-group"></i>
                     <h5> Manage Collection</h5>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="dashboard-option" onclick="window.location = ('manage_stock')">
+                <div class="dashboard-option" href="{{ route('admin.stock.view') }}">
                     <i class="fas fa-box-open"></i>
                     <h5>Stock Management</h5>
                 </div>

@@ -30,6 +30,7 @@ class AdminAuthController extends Controller
 
             // Store admin_id in the session
             Session::put('admin_id', $admin->admin_id);
+            Session::put('admin_name', $admin->name);
 
             return redirect()->route('admin.dashboard');
         }

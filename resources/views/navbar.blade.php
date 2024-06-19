@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand text-white display-6 d-md-block" href="/">Krazy Kart user:: {{ session('username') }}</a>
-        <div class="search-bar-container w-auto">
-            <div class="input-group rounded-5" style="height:40px">
-                <div class="input-group-text border-2 border-end-0 border-danger rounded-start-3">
+        <a class="navbar-brand text-white display-6 d-md-block" href="/">Krazy Kart</a>
+        <div class="search-bar-container w-auto ms-md-auto">
+            <div class="input-group rounded-5 " style="height:40px">
+                <div class="input-group-text border-2 border-end-0 bg-white rounded-start-3">
                     <i class="fas fa-search text-sec"></i>
                 </div>
                 <input type="text" placeholder="Search Category, Type and More..."
-                    class="form-control searchInput rounded-end-3 border-2 border-danger border-start-0 ">
+                    class="form-control searchInput rounded-end-3 border-2 border-start-0 ">
             </div>
         </div>
         <div class="btn text-white border-1 ms-auto d-md-none me-1 search-icon"><i class="fas fa-search"></i></div>
@@ -50,12 +50,12 @@
     });
 </script>
 <style>
-    .searchInput.form-control {
+    /* .searchInput.form-control {
         border-top: 2px solid var(--sec) !important;
         border-bottom: 2px solid var(--sec) !important;
         border-right: 2px solid var(--sec) !important;
 
-    }
+    } */
 
     .searchInput.form-control:focus {
         box-shadow: none;

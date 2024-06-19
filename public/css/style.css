@@ -159,7 +159,8 @@ body .background {
 
 
 .navbar.fixed-top {
-    background: linear-gradient(222deg, var(--pri) 35%, var(--sec) 80%);
+    /* background: linear-gradient(222deg, var(--pri) 35%, var(--sec) 80%); */
+    background: var(--sec) !important;
     border-bottom: 3px dashed var(--sec);
 }
 

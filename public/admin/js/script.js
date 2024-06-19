@@ -67,7 +67,7 @@ function updateRecordStatus(tableName, primaryKey, id) {
         dataType: 'json',
         success: function (response) {
             if (response.success) {
-                    location.reload();
+                location.reload();
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -136,14 +136,14 @@ function updateRecordStatus(tableName, primaryKey, id) {
 //         }
 //     });
 // }
-function basicConfirmPopup(message){
+function basicConfirmPopup(message) {
     if (confirm(message)) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
-function OpenPopupWindow(url, title, width="1000", height="700") {
+function OpenPopupWindow(url, title, width = "1000", height = "700") {
     // Calculate the position of the popup to center it on the screen
     var left = (screen.width / 2) - (width / 2);
     var top = (screen.height / 2) - (height / 2);
@@ -158,7 +158,73 @@ function OpenPopupWindow(url, title, width="1000", height="700") {
 
     return popupWindow;
 }
+function showActionAlert(message, type = 'success', position = 'top-right') {
+    return new Promise(function (resolve) {
+        // Create the alert element
+        const alertHtml = `
+                <div class="alert alert-dismissible fade show position-fixed" wi style="z-index:10000000;width:400px" role="alert">
+                 ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `; // <strong>Success!</strong>
 
+        // Append the alert to the body
+        $('body').append(alertHtml);
+
+        // Select the newly added alert
+        const $alert = $('.alert').last();
+
+        switch (type) {
+            case 'success':
+                $alert.addClass('alert-success');
+                break;
+            case 'warning':
+                $alert.addClass('alert-warning');
+                break;
+            case 'error':
+            case 'danger':
+                $alert.addClass('alert-danger');
+                break;
+        }
+
+        // Apply positioning classes based on the position parameter
+        switch (position) {
+            case 'top-right':
+                $alert.addClass('top-0 end-0 mt-3 me-3');
+                break;
+            case 'top-left':
+                $alert.addClass('top-0 start-0 mt-3 ms-3');
+                break;
+            case 'top-center':
+                $alert.addClass('top-0 start-50 translate-middle-x mt-3');
+                break;
+            case 'bottom-right':
+                $alert.addClass('bottom-0 end-0 mb-3 me-3');
+                break;
+            case 'bottom-left':
+                $alert.addClass('bottom-0 start-0 mb-3 ms-3');
+                break;
+            case 'bottom-center':
+                $alert.addClass('bottom-0 start-50 translate-middle-x mb-3');
+                break;
+            default:
+                $alert.addClass('top-0 end-0 mt-3 me-3'); // Default to top-right
+        }
+        sessionStorage.setItem('alertHtml', alertHtml);
+        sessionStorage.setItem('alertType', type);
+        sessionStorage.setItem('alertPosition', position);
+
+        // Automatically remove the alert after a timeout (e.g., 5 seconds)
+        setTimeout(function () {
+            $alert.remove();
+            sessionStorage.removeItem('alertHtml');
+            sessionStorage.removeItem('alertType');
+            sessionStorage.removeItem('alertPosition');
+        }, 5000);
+
+        resolve();
+    });
+}
 
 
 
