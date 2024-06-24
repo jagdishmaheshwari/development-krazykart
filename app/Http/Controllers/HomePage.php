@@ -8,16 +8,17 @@ use Illuminate\Http\Request;
 
 class HomePage extends Controller
 {
-    public function __invoke(Request $request){
+    public function __invoke(Request $request)
+    {
         // $Data = getItem(2, true);
         $Collection = Collection::where('name', "Homepage Carousel")->first(['collection_id', 'name', 'collection_data']);
         $HomeCarouselData = [];
         if ($Collection && isset($Collection->collection_data) && $Collection->collection_data != null) {
-                $HomeCarouselData['Items'] = array_map(function ($id) {
-                    if ($id) {
-                        return getItem( $id, true);
-                    }
-                }, json_decode($Collection->collection_data, true));
+            $HomeCarouselData['Items'] = array_map(function ($id) {
+                if ($id) {
+                    return getItem($id, true);
+                }
+            }, json_decode($Collection->collection_data, true));
         }
         // dd((array)$request);
         // prd($HomeCarouselData);
@@ -30,6 +31,7 @@ class HomePage extends Controller
                 }
             }, json_decode($Collection->collection_data, true));
         }
-        return view('home', compact('HomeCarouselData','FamousItemCarouselData'));
+        $ActivePage = 'home';
+        return view('home', compact('HomeCarouselData', 'FamousItemCarouselData', 'ActivePage'));
     }
 }

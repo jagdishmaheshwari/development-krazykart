@@ -1,10 +1,9 @@
 @extends('app')
-
 @section('title', 'Krazy Kart')
 
 @section('content')
     <div class="owl-carousel main owl-theme pt-0">
-        @if (count($HomeCarouselData['Items']) > 0)
+        @if (count($HomeCarouselData) > 0)
             @foreach ($HomeCarouselData['Items'] as $Item)
                 <div class="item d-flex align-items-center justify-content-center"
                     style="height:400px;max-height: 50vh; position: relative; overflow: hidden;background-opacity:0.2;background: {{ $Item->color_code }}c9">
@@ -30,12 +29,8 @@
         <section class="about-us-section">
             <div class="row">
                 <div class="col-md-6">
-                    <h2>About Us</h2>
-                    <p>Welcome to Krazy Kart, your ultimate destination for trendy and affordable fashion.</p>
-                    <p>At Krazy Kart, we believe in making fashion accessible to everyone. Our carefully curated collections
-                        cater to every style and occasion, ensuring you find exactly what you're looking for.</p>
-                    <p>Whether you're browsing for the latest runway trends or classic wardrobe staples, we've got you
-                        covered. Our commitment to quality and customer satisfaction drives everything we do.</p>
+                    <h2>{{ __('lang.about_us') }}</h2>
+                    <p>{{ __('lang.about_us_detail') }}</p>
                 </div>
                 <div class="col-md-6">
                     <h2>Our Mission</h2>
@@ -58,8 +53,8 @@
         </h3>
     </div>
     <div class="owl-carousel owl-theme famouse">
-        @if (count($HomeCarouselData) > 0)
-            @foreach ($HomeCarouselData['Items'] as $Item)
+        @if (count($FamousItemCarouselData) > 0)
+            @foreach ($FamousItemCarouselData['Items'] as $Item)
                 <div class="item">
                     <div class="card product_card border-3 border border-white p-1" productCode="">
                         <span style="z-index:1" class="ms-2 h4 text-pri addFavourite position-absolute">
@@ -72,30 +67,28 @@
                                 onerror="$(this).hide();$('.image').show()" class="">
                         </div>
                         <div class="bg-white itemDetail">
-                            <div style="height:3em" class="small">
-                            </div>
+                            <div style="height:3em" class="small">{{ $Item->p_description }}</div>
                             <div class="row">
                                 <div class="col-7 text-acc" style="font-size:20px">
                                     <div class="rating-container">
                                         <div class="rating-star bg-acc"></div>
-                                        <div class="rating-level bg-sec" style="width:50px"></div>
+                                        <div class="rating-level bg-sec" style="width:{{ rand(1.0, 5) * 20 }}px"></div>
                                     </div>
                                     <small><i class="fa fa-comment-dots text-pri"></i>(122)</small>
                                 </div>
                                 <div class="text-end col-5">
-                                    <sub class="h6 text-sec"> <del>₹
+                                    <sub class="h6 text-sec"> <del>₹ {{ $Item->mrp }}
                                         </del></sub>
-                                    <div class="h5 text-pri"> ₹<span>
+                                    <div class="h5 text-pri"> ₹ {{ $Item->price }}<span>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="row ps-3 pe-0 moreDetails text-sec" style="dissplay:one">
                                     <div class="col-6">
-                                        <small><i class="fa fa-ruler text-pri"></i>Size</small>
+                                        <small><i class="fa fa-ruler text-pri"></i>{{ $Item->size_name }}</small>
                                     </div>
                                     <div class="col-6 text-end">
-
-                                        Color
+                                        {{ $Item->color_name }}
                                         <span class="" style="font-size:9px">
                                             <i class="fa fa-circle text-pri"></i>
                                             <i class="fa fa-circle text-sec"></i>
@@ -107,7 +100,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="btn btn-primary bg-pri text-nue w-100">
+                        <div class="btn btn-primary bg-pri text-nue w-100"
+                            href="{{ route('product.view', $Item->item_id) }}">
                             MORE DETAILS <i class="fas fa-arrow-circle-right"></i>
                         </div>
                         <div>
@@ -117,7 +111,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="btn btn-danger bg-sec mt-2 w-100"> ADD TO WISHCART <i class="fa fa fa-cart-plus"></i>
+                        <div class="btn btn-danger bg-sec mt-2 w-100 addToCart" data-product="{{ $Item->item_id }}"> ADD TO WISHCART <i class="fa fa fa-cart-plus"></i>
                         </div>
                     </div>
                 </div>
@@ -211,10 +205,10 @@
                         items: 1
                     },
                     800: {
-                        items: 2
+                        items: 3
                     },
                     1000: {
-                        items: 3
+                        items: 5
                     }
                 },
                 lazyLoad: true,
@@ -291,5 +285,8 @@
                 });
             });
         });
+    </script>
+    <script>
+       
     </script>
 @endsection

@@ -1,8 +1,5 @@
-<hr>
-<hr>
-
-<div class="display-1 bg-light text-pri py-5 text-center">
-     {{ __('lang.welcome') }}
+<div class="display-6 bg-light text-pri py-5 text-center">
+    {{ __('lang.welcome') }}
 </div>
 <footer class="footer mt-auto ">
     <div class="container text-center">
@@ -29,14 +26,14 @@
 </div>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('[data-bs-toggle="tooltip"]').tooltip();
     });
 </script>
 
 
-<script src="js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<script src="js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
 </body>
 

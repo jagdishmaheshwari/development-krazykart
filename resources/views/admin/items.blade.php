@@ -171,33 +171,33 @@
                                     onclick="prefillItemDetails('{{ $item->item_id }}','{{ $item->fk_size_id }}','{{ $item->fk_color_id }}','{{ $item->priority }}','{{ $item->mrp }}','{{ $item->price }}')">
                                     <i class="fas fa-edit"></i> Edit
                                 </div> --}}
-                                <div class="btn btn-primary"
+                                <div class="btn btn-primary btn-smmmmm"
                                     onclick="prefillItemDetails('{{ $item->item_id }}','{{ $item->fk_size_id }}','{{ $item->fk_color_id }}','{{ $item->priority }}','{{ $item->mrp }}','{{ $item->price }}','{{ $item->cost_price }}')">
                                     <i class="fas fa-edit"></i> Edit
                                 </div>
-                                <div class="btn btn-danger" onclick="deleteItem('{{ $item->item_id }}')">
+                                <div class="btn btn-danger btn-smmmmm" onclick="deleteItem('{{ $item->item_id }}')">
                                     <i class="fa fa-trash"></i>
                                 </div>
                                 @if ($item->status == 0)
-                                    <div class="btn btn-success"
+                                    <div class="btn btn-success btn-smmmmm"
                                         onclick="updateRecordStatus('items','item_id','{{ $item->item_id }}')">
                                         <i class="fa fa-eye"></i> Show
                                     </div>
                                 @else
-                                    <div class="btn btn-danger"
+                                    <div class="btn btn-danger btn-smmmmm"
                                         onclick="updateRecordStatus('items','item_id','{{ $item->item_id }}')">
                                         <i class="fa fa-eye-slash"></i> Hide
                                     </div>
                                 @endif
                                 <div class="pt-1">
-                                    <div class="btn btn-primary" onclick="openImagePopup({{ $item->item_id }})">
+                                    <div class="btn btn-primary btn-smmmmm" onclick="openImagePopup({{ $item->item_id }})">
                                         <i class="fa fa-image"></i>
                                     </div>
-                                    <div class="btn btn-primary" onclick="showItemStockDetails('{{ $item->item_id }}')">
+                                    <div class="btn btn-primary btn-smmmmm" onclick="showItemStockDetails('{{ $item->item_id }}')">
                                         {{-- data-bs-toggle="modal" data-bs-target="#addStockModal" --}}
                                         <i class="fas fa-box-open"></i> Stock
                                     </div>
-                                    <div class="btn btn-warning" id="cloneItem" data-item-id="{{ $item->item_id }}">
+                                    <div class="btn btn-warning btn-smmmmm cloneItem" data-item-id="{{ $item->item_id }}">
                                         <i class="fas fa-clone"></i> Clone
                                     </div>
                                 </div>
@@ -376,7 +376,7 @@
                     }
                 });
             });
-            $('#cloneItem').click(function() {
+            $('.cloneItem').click(function() {
                 // Get the item ID to be cloned (replace with your logic to get the ID)
                 var itemId = $(this).data('item-id'); // Assuming the ID is stored in a data attribute
 

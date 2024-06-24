@@ -115,6 +115,13 @@ if (!function_exists('getItem')) {
         return reset($Detail);
     }
 }
+// if (!function_exists('getProduct')) {
+//     function getProduct($itemId=[], $admin = false)
+//     {
+//         $Detail = ItemsController::getItems(["p.product_id" => $itemId], [], $admin);
+//         return reset($Detail);
+//     }
+// }
 if (!function_exists('getItems')) {
     function getItems($condition = [], $orderBy = [], $admin = false)
     {

@@ -3,7 +3,7 @@
 $(document).on('click', 'div[href], div[hrep]', function () {
     var href = $(this).attr("href");
     var hrep = $(this).attr("hrep"); // Get the value of 'hrep' attribute
-    if (hrep) { 
+    if (hrep) {
         location.replace(hrep);
     } else if (href) {
         var target = $(this).attr("target");
@@ -14,8 +14,8 @@ $(document).on('click', 'div[href], div[hrep]', function () {
         }
     }
 });
-$('.fullscreen-image').on('click', function () {
-    $(document).ready(function () {
+$(document).ready(function () {
+    $('.fullscreen-image').on('click', function () {
         $('.fullscreen-image').click(function () {
             var images = $('.fullscreen-image');
             var index = images.index(this);

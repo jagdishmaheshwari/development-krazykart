@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Wishkart;
 
 class UserController extends Controller
 {
@@ -37,7 +38,7 @@ class UserController extends Controller
 
     public function dashboard()
     {
-        return view('dashboard');
+        return view('dashboard', ['ActivePage' => 'profile']);
     }
     public function wishkart()
     {
@@ -52,6 +53,39 @@ class UserController extends Controller
         $request->session()->regenerateToken(); // Regenerate CSRF token
 
         return redirect('/'); // Redirect to home page or any desired page after logout
+    }
+    public function product($ProductId)
+    {
+        $Product = getItem($ProductId);
+        $ActivePage = 'product';
+        return view('product', compact('Product', 'ActivePage'));
+    }
+    public function addToWishkart(Request $request)
+    {
+        $request->validate([
+            'item_id' => 'required|integer',
+        ]);
+        $user = auth()->user()->id;
+        $wishkart = new Wishkart();
+        $wishkart->fk_user_id = $user;
+        $wishkart->fk_item_id = $request->item_id;
+
+        $wishkart->save();
+        return response()->json(['success' => 'Item added to Wishkart successfully']);
+    }
+    public function showWishkart()
+    {
+        $userId = auth()->user()->id;
+
+        $wishkartItems = Wishkart::where('fk_user_id', $userId)->get();
+        $mappedWishkartItems = $wishkartItems->map(function ($wishkartItem) {
+            $itemDetails = getItem($wishkartItem->fk_item_id) ?: '';
+            return $itemDetails;
+        });
+        return view('wishkart', [
+            'wishkartItems' => $mappedWishkartItems,
+            'ActivePage' => 'wishkart'
+        ]);
     }
 }
 

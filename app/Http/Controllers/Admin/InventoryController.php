@@ -72,7 +72,10 @@ class InventoryController extends Controller
 
     public function ProductWiseStockView()
     {
-        $products =  ItemsController::getItems([], [], true);
+        $condition = [
+            'stock' => ['>' , 0]
+        ];
+        $products =  ItemsController::getItems($condition, [], true);
         return view('admin.manage_stock',compact('products'));
     }
     public function ItemWiseStockView(Request $request)

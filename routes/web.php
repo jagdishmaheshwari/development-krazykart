@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerificationMail;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -23,11 +24,15 @@ use Illuminate\Http\Request;
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::get('/login', [UserController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [UserController::class, 'login']);
+Route::post('/login', [UserController::class, 'login'])->name('user.login');
+Route::get('/lang/{locale}', [LanguageController::class, 'switchLang'])->name('lang.switch');
+Route::get('/product/{p_id}', [UserController::class, 'product'])->name('product.view');
+Route::post('/wishkart/add', [UserController::class, 'addToWishkart'])->name('wishkart.add');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
-    Route::get('/wishkart', [UserController::class, 'wishkart'])->name('wishkart');
+    Route::get('/wishkart', [UserController::class, 'showWishkart'])->name('wishkart');
 });
 Route::get('/', HomePage::class)->name('home');
 
@@ -41,7 +46,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/upload-item-image', [ItemImageController::class, 'upload'])->name('item.image.upload');
         Route::delete('/upload-item-image', [ItemImageController::class, 'destroy'])->name('item.image.delete');
         Route::get('/dashboard', AdminDashboardController::class)->name('dashboard');
-        
+
         Route::get('/colors', ColorController::class)->name('colors');
         Route::post('/color/add', [ColorController::class, 'add'])->name('color.add');
         Route::post('/color/update', [ColorController::class, 'update'])->name('color.update');
@@ -131,7 +136,7 @@ Route::post('/verify_email', function (Request $request) {
         $email = $validatedData['email'];
         Mail::to($email)->send(new VerificationMail());
 
-        return response()->json(['message' => 'Verification code sent successfully'], 200);
+        return response()->json(['success' => 'Verification code sent successfully'], 200);
     } catch (\Exception $e) {
         return response()->json(['message' => 'Failed to send test email: ' . $e->getMessage()], 500);
     }

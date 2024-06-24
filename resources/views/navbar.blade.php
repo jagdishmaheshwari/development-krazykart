@@ -10,35 +10,38 @@
                     class="form-control searchInput rounded-end-3 border-2 border-start-0 ">
             </div>
         </div>
+                <a href="{{ route('lang.switch', 'en') }}" class="text-pri px-2 text-decoration-none">English</a>
+        <a href="{{ route('lang.switch', 'guj') }}" class="text-pri px-2 text-decoration-none">ગુજરાતી</a>
         <div class="btn text-white border-1 ms-auto d-md-none me-1 search-icon"><i class="fas fa-search"></i></div>
-        <div class="btn text-white border-1 me-1" href="wishkart"><i class="fas fa-shopping-cart"></i></div>
+        <div class="btn text-white border-1 me-1" href="{{ route('wishkart') }}"><i class="fas fa-shopping-cart"></i></div>
     </div>
 </nav>
-
+@if(!in_array(@$ActivePage, ['product']))
     <nav class="navbar navbar-light bg-light fixed-bottom">
         <ul class="nav nav-tabs nav-fill mx-auto mb-lg-0">
             <li class="nav-item">
-                <a class="nav-link <?php// echo $ActivePage == 'home' ? 'active' : '' ?>" href="/"><span><i
+                <a class="nav-link {{ @$ActivePage == 'home' ? 'active' : '' }}" href="/"><span><i
                             class="fas fa-home"></i></span> Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?php//echo $ActivePage == 'collection' ? 'active' : '' ?>" href="collection"><span><i
+                <a class="nav-link {{ @$ActivePage == 'collection' ? 'active' : '' }}" href="collection"><span><i
                             class="fas fa-box"></i></span> Collection</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?php //echo $ActivePage == 'orders' ? 'active' : '' ?>" href="#"><span><i
+                <a class="nav-link {{ @$ActivePage == 'orders' ? 'active' : '' }}" href="#"><span><i
                             class="fas fa-shopping-cart"></i></span> Orders</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?php //echo $ActivePage == 'rewards' ? 'active' : '' ?>" href="#"><span><i
+                <a class="nav-link {{ @$ActivePage == 'rewards' ? 'active' : '' }}" href="#"><span><i
                             class="fas fa-gift"></i></span> Reward</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?php // echo $ActivePage == 'profile' ? 'active' : '' ?>" href="login"><span><i
+                <a class="nav-link {{ @$ActivePage == 'profile' ? 'active' : '' }}" href="login"><span><i
                             class="fas fa-user"></i></span> Profile</a>
             </li>
         </ul>
     </nav>
+@endif
     <?php
 // } ?>
 

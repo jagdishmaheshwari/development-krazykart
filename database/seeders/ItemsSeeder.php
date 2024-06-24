@@ -26,7 +26,7 @@ class ItemsSeeder extends Seeder
         $SizeIdArray = [];
         for($size = 0;$size < 10; $size++){
             $SizeIdArray[] = DB::table('sizes')->insertGetId([
-                'size_name' => $faker->words(5, true),
+                'size_name' => $faker->words(1, true),
                 'size_code' => $faker->randomElement(['S', 'M', 'L', 'XL', 'FREE', 'XL', 'XXL', 'XXXL'])
             ]);
         };

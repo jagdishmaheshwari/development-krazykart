@@ -19,7 +19,7 @@ class ClearItemImagesStorage extends Command
      *
      * @var string
      */
-    protected $description = 'Clear the item_images folder';
+    protected $description = 'Clear the images folder';
 
     /**
      * Execute the console command.
@@ -28,16 +28,16 @@ class ClearItemImagesStorage extends Command
      */
     public function handle()
     {
-        $folder = 'public/item_images';
+        $folder = 'public/images';
 
         // Check if the folder exists
         if (Storage::exists($folder)) {
             // Delete all files in the folder
             Storage::deleteDirectory($folder);
 
-            $this->info('item_images folder cleared successfully.');
+            $this->info('images folder cleared successfully.');
         } else {
-            $this->warn('item_images folder not found.');
+            $this->warn('images folder not found.');
         }
 
         return 0;
