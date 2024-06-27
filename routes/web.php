@@ -22,7 +22,14 @@ use App\Http\Controllers\HomePage;
 use Illuminate\Http\Request;
 
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+Route::get('/test', function(){
+return view('test');
+});
+Route::post('/ajax', function (){
 
+    $Response = 1;
+    return response()->json($Response);
+});
 Route::get('/login', [UserController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [UserController::class, 'login'])->name('user.login');
 Route::get('/lang/{locale}', [LanguageController::class, 'switchLang'])->name('lang.switch');
